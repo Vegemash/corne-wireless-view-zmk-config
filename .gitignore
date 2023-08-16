@@ -1,0 +1,10 @@
+artefacts
+.west
+build/CMakeFiles
+build
+modules
+zephyr
+zmk
+.cache/clangd/index
+bootloader/mcuboot
+tools
