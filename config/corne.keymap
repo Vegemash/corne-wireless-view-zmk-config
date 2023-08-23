@@ -32,6 +32,42 @@ ZMK_BEHAVIOR(hrm, hold_tap,
     bindings = <&kp>, <&kp>;
 )
 
+ZMK_BEHAVIOR(dtap, macro_one_param,
+    bindings =  
+        <&macro_param_1to1>, <&macro_tap &kp MACRO_PLACEHOLDER>, 
+        <&macro_param_1to1>, <&macro_tap &kp MACRO_PLACEHOLDER>
+        ;
+)
+ZMK_BEHAVIOR(h_t, hold_tap,
+    flavor = "balanced";
+    tapping-term-ms = <280>;         
+    quick-tap-ms = <125>;
+    global-quick-tap;
+    bindings = <&kp>, <&dtap>;
+)
+
+#define TAP_AND_HOLD(name, tapKey, hold) \
+     ZMK_BEHAVIOR(name, tap_dance, \
+        tapping-term-ms = <280>; \
+        bindings = <&kp tapKey>, <hold tapKey>; \
+      ) 
+
+TAP_AND_HOLD(tnh_f7, F, &h_t LC(LA(KP_N7)))
+TAP_AND_HOLD(tnh_j7, J, &h_t LC(LA(KP_N7)))
+TAP_AND_HOLD(tnh_y7, Y, &h_t LC(LA(KP_N7)))
+
+TAP_AND_HOLD(tnh_g8, G, &h_t LC(LA(KP_N8)))
+TAP_AND_HOLD(tnh_l8, L, &h_t LC(LA(KP_N8)))
+TAP_AND_HOLD(tnh_u8, U, &h_t LC(LA(KP_N8)))
+
+TAP_AND_HOLD(tnh_c9, C, &h_t LC(LA(KP_N9)))
+TAP_AND_HOLD(tnh_u9, U, &h_t LC(LA(KP_N9)))
+TAP_AND_HOLD(tnh_i9, I, &h_t LC(LA(KP_N9)))
+
+TAP_AND_HOLD(tnh_r4, R, &h_t LC(LA(KP_N4)))
+TAP_AND_HOLD(tnh_y4, Y, &h_t LC(LA(KP_N4)))
+TAP_AND_HOLD(tnh_o4, O, &h_t LC(LA(KP_N4)))
+
 /* Define home row mods */
 #define HLC &hrm LCTRL
 #define HRC &hrm RCTRL
@@ -68,7 +104,14 @@ ZMK_BEHAVIOR(hrm, hold_tap,
   │ --  25  26  27  28  29 │ 30  31  32  33  34  -- │ │ --- LB4 LB3 LB2 LB1 LB0 │ RB0 RB1 RB2 RB3 RB4 --- │
   ╰───────────╮ 36  37  38 │ 39  40  41 ╭───────────╯ ╰───────────╮ LH2 LH1 LH0 │ RH0 RH1 RH2 ╭───────────╯
               ╰────────────┴────────────╯                         ╰─────────────┴─────────────╯             */
-ZMK_COMBO(game, &to GAMING, LB3 LB2 LB1, BASE)
+// Gaming layer
+ZMK_COMBO(game, &to GAMING, LB3 LB2 LB1, BASE COLMAK QWERTY)
+
+// Delete/backspace combos
+ZMK_COMBO(delete, &kp DEL, RM0 RM1, BASE COLMAK QWERTY)
+ZMK_COMBO(backsp, &kp BSPC, RM1 RM2, BASE COLMAK QWERTY)
+
+// Alpha layout switch
 ZMK_COMBO(dvorak, &to BASE, RM1 RM2 RM3 , COLMAK QWERTY)
 ZMK_COMBO(colmak, &to COLMAK, RT1 RT2 RT3 , BASE QWERTY)
 ZMK_COMBO(qwerty, &to QWERTY, RB1 RB2 RB3 , BASE COLMAK)
@@ -91,7 +134,7 @@ ZMK_BEHAVIOR(ques_excl, mod_morph,
 
 ZMK_LAYER(base,
      // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-___         &kp SQT      &kp COMMA      &kp DOT       &kp P         &kp Y             &kp F         &kp G         &kp C         &kp R         &kp L        ___ 
+___         &kp SQT      &kp COMMA      &kp DOT       &kp P         &kp Y            &tnh_f7       &tnh_g8       &tnh_c9       &tnh_r4        &kp L        ___ 
      // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
 ___          HLC A         HLA O        HLG E         &kp U         &kp I             &kp D         &kp H         HRG T         HRA N         HRC S        ___
      // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
@@ -102,7 +145,7 @@ ___         &kp ESC       &kp Q         &kp J         &kp K         &kp X       
 )
 ZMK_LAYER(colmak,
      // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-___          &kp Q         &kp W        &kp F         &kp P         &kp B             &kp J         &kp L         &kp U         &kp Y        &kp ESC       ___ 
+___          &kp Q         &kp W        &kp F         &kp P         &kp B            &tnh_j7       &tnh_l8       &tnh_u9       &tnh_y4       &kp ESC       ___ 
      // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
 ___          HLC A         HLA R        HLG S         &kp T         &kp G             &kp M         &kp N         HRG E         HRA I         HRC O        ___
      // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
@@ -113,7 +156,7 @@ ___          &kp Z         &kp X        &kp C         &kp D         &kp V       
 )
 ZMK_LAYER(qwerty,
      // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-___          &kp Q         &kp W        &kp E         &kp R         &kp T             &kp Y         &kp U         &kp I         &kp O         &kp P        ___ 
+___          &kp Q         &kp W        &kp E         &kp R         &kp T            &tnh_y7       &tnh_u8       &tnh_i9       &tnh_o4        &kp P        ___ 
      // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
 ___          HLC A         HLA S        HLG D         &kp F         &kp G             &kp H         &kp J         HRG K         HRA L        HRC ESC       ___
      // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
