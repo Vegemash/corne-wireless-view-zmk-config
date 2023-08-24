@@ -118,6 +118,8 @@ ZMK_COMBO(cb_delete, &kp DEL, RM0 RM1, DVORAK COLMAK QWERTY)
 ZMK_COMBO(cb_backsp, &kp BSPC, RM1 RM2, DVORAK COLMAK QWERTY)
 // Tab
 ZMK_COMBO(cb_tab, &kp TAB, LM2 LM1, DVORAK COLMAK QWERTY)
+// Esc
+ZMK_COMBO(cb_esc, &kp ESC, LM3 LM2, DVORAK COLMAK QWERTY)
 // Caps word
 ZMK_COMBO(cb_capsword, &caps_word, LH2 LH1, DVORAK COLMAK QWERTY)
 
@@ -135,12 +137,6 @@ ZMK_COMBO(cb_game_esc, &kp ESC, LT1 LT0, GAMING)
 ZMK_COMBO(cb_game_bspc, &kp BSPC, LT4 LT3, GAMING)
 
 /********************* SHIFTED KEY MODS *******************************/ 
-/* // Shifted space is backspace */
-/* ZMK_BEHAVIOR(spc_bs, mod_morph, */
-/*     bindings = <&kp SPC>,  <&kp BSPC> ; */
-/*     mods = <(MOD_LSFT|MOD_RSFT)>; */
-/* ) */
-
 // Shifted colon is semicolon
 ZMK_BEHAVIOR(cln_semi, mod_morph,
     bindings = <&kp COLON>,  <&kp SEMI> ;
@@ -157,7 +153,7 @@ ZMK_BEHAVIOR(ques_excl, mod_morph,
   ╭─────────────────────┬────────────────────╮
   │  '   ,   .   p   y  │  f   g   c   r   l │
   │  a   o   e   u   i  │  d   h   t   n   s │
-  │ esc  q   j   k   x  │  b   m   w   v   z │
+  │  :   q   j   k   x  │  b   m   w   v   z │
   ╰───────╮     sft sym │ ent spc     ╭──────╯
           ╰─────────────┴─────────────╯         */
 
@@ -167,21 +163,21 @@ ___         &kp SQT      &kp COMMA      &kp DOT       &kp P         &kp Y       
      // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
 ___          HLC A         HLA O        HLG E         &kp U         &kp I             &kp D         &kp H         HRG T         HRA N         HRC S        ___
      // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-___         &kp ESC       &kp Q         &kp J         &kp K         &kp X             &kp B         &kp M         &kp W         &kp V         &kp Z        ___
+___        &cln_semi       &kp Q        &kp J         &kp K         &kp X             &kp B         &kp M         &kp W         &kp V         &kp Z        ___
      // ╰─────────────┴─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────╯
                                          ___         &sk LSHIFT    &sl SYM          &lt MOV RET    &kp SPC        &none
      //                             ╰─────────────┴─────────────┴─────────────╯   ╰─────────────┴─────────────┴─────────────╯
 )
 /*
   ╭─────────────────────┬────────────────────╮
-  │  q   w   f   p   b  │  j   l   u   y   l │
+  │  q   w   f   p   b  │  j   l   u   y   : │
   │  a   r   s   t   g  │  m   n   e   i   o │
   │  z   x   c   d   v  │  k   h   ,   .   ' │
   ╰───────╮     sft sym │ ent spc     ╭──────╯
           ╰─────────────┴─────────────╯         */
 ZMK_LAYER(colmak,
      // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-___          &kp Q         &kp W        &kp F         &kp P         &kp B            &tnh_j7       &tnh_l8       &tnh_u9       &tnh_y4       &kp ESC       ___ 
+___          &kp Q         &kp W        &kp F         &kp P         &kp B            &tnh_j7       &tnh_l8       &tnh_u9       &tnh_y4      &cln_semi      ___ 
      // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
 ___          HLC A         HLA R        HLG S         &kp T         &kp G             &kp M         &kp N         HRG E         HRA I         HRC O        ___
      // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
@@ -193,7 +189,7 @@ ___          &kp Z         &kp X        &kp C         &kp D         &kp V       
 /*
   ╭─────────────────────┬────────────────────╮
   │  q   w   e   r   t  │  y   u   i   o   p │
-  │  a   s   d   f   g  │  h   j   k   l  esc│
+  │  a   s   d   f   g  │  h   j   k   l   ; │
   │  z   x   c   v   b  │  n   m   ,   .   ' │
   ╰───────╮     sft sym │ ent spc     ╭──────╯
           ╰─────────────┴─────────────╯         */
@@ -201,7 +197,7 @@ ZMK_LAYER(qwerty,
      // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
 ___          &kp Q         &kp W        &kp E         &kp R         &kp T            &tnh_y7       &tnh_u8       &tnh_i9       &tnh_o4        &kp P        ___ 
      // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-___          HLC A         HLA S        HLG D         &kp F         &kp G             &kp H         &kp J         HRG K         HRA L        HRC ESC       ___
+___          HLC A         HLA S        HLG D         &kp F         &kp G             &kp H         &kp J         HRG K         HRA L        HRC SEMI      ___
      // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
 ___          &kp Z         &kp X        &kp C         &kp V         &kp B             &kp N         &kp M       &kp COMMA      &kp DOT       &kp SQT       ___
      // ╰─────────────┴─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────╯
