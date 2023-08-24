@@ -118,6 +118,8 @@ ZMK_COMBO(cb_delete, &kp DEL, RM0 RM1, DVORAK COLMAK QWERTY)
 ZMK_COMBO(cb_backsp, &kp BSPC, RM1 RM2, DVORAK COLMAK QWERTY)
 // Tab
 ZMK_COMBO(cb_tab, &kp TAB, LM2 LM1, DVORAK COLMAK QWERTY)
+// Caps word
+ZMK_COMBO(cb_capsword, &caps_word, LH2 LH1, DVORAK COLMAK QWERTY)
 
 
 /******************** SYMBOL LAYER COMBOS *****************************/ 
