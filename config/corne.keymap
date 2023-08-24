@@ -12,7 +12,7 @@
 #include "includes/keypos_42keys.h"
 
 // layer shortcuts, must match order in which they are defined below
-#define BASE 0
+#define DVORAK 0
 #define COLMAK 1
 #define QWERTY 2
 #define MOV 3
@@ -104,35 +104,62 @@ TAP_AND_HOLD(tnh_o4, O, &h_t LC(LA(KP_N4)))
   │ --  25  26  27  28  29 │ 30  31  32  33  34  -- │ │ --- LB4 LB3 LB2 LB1 LB0 │ RB0 RB1 RB2 RB3 RB4 --- │
   ╰───────────╮ 36  37  38 │ 39  40  41 ╭───────────╯ ╰───────────╮ LH2 LH1 LH0 │ RH0 RH1 RH2 ╭───────────╯
               ╰────────────┴────────────╯                         ╰─────────────┴─────────────╯             */
+/******************** ALPHA LAYER COMBOS ******************************/ 
+// Alpha layout switch
+ZMK_COMBO(cb_colmak, &to COLMAK, RT1 RT2 RT3 , DVORAK QWERTY)
+ZMK_COMBO(cb_dvorak, &to DVORAK, RM1 RM2 RM3 , COLMAK QWERTY)
+ZMK_COMBO(cb_qwerty, &to QWERTY, RB1 RB2 RB3 , DVORAK COLMAK)
+
 // Gaming layer
-ZMK_COMBO(game, &to GAMING, LB3 LB2 LB1, BASE COLMAK QWERTY)
+ZMK_COMBO(cb_game, &to GAMING, LB3 LB2 LB1, DVORAK COLMAK QWERTY)
 
 // Delete/backspace combos
-ZMK_COMBO(delete, &kp DEL, RM0 RM1, BASE COLMAK QWERTY)
-ZMK_COMBO(backsp, &kp BSPC, RM1 RM2, BASE COLMAK QWERTY)
+ZMK_COMBO(cb_delete, &kp DEL, RM0 RM1, DVORAK COLMAK QWERTY)
+ZMK_COMBO(cb_backsp, &kp BSPC, RM1 RM2, DVORAK COLMAK QWERTY)
+// Tab
+ZMK_COMBO(cb_tab, &kp TAB, LM2 LM1, DVORAK COLMAK QWERTY)
 
-// Alpha layout switch
-ZMK_COMBO(dvorak, &to BASE, RM1 RM2 RM3 , COLMAK QWERTY)
-ZMK_COMBO(colmak, &to COLMAK, RT1 RT2 RT3 , BASE QWERTY)
-ZMK_COMBO(qwerty, &to QWERTY, RB1 RB2 RB3 , BASE COLMAK)
 
-ZMK_BEHAVIOR(spc_bs, mod_morph,
-    bindings = <&kp SPC>,  <&kp BSPC> ;
-    mods = <(MOD_LSFT|MOD_RSFT)>;
+/******************** SYMBOL LAYER COMBOS *****************************/ 
+ZMK_BEHAVIOR(macro_arrow, macro,
+    bindings =  
+        <&macro_tap &kp MINUS>, 
+        <&macro_tap &kp LS(DOT)>;
 )
+ZMK_COMBO(cb_arrow, &macro_arrow, RM2 RM3, SYM)
 
+/******************** GAMING LAYER COMBOS *****************************/ 
+ZMK_COMBO(cb_game_esc, &kp ESC, LT1 LT0, GAMING)
+ZMK_COMBO(cb_game_bspc, &kp BSPC, LT4 LT3, GAMING)
+
+/********************* SHIFTED KEY MODS *******************************/ 
+/* // Shifted space is backspace */
+/* ZMK_BEHAVIOR(spc_bs, mod_morph, */
+/*     bindings = <&kp SPC>,  <&kp BSPC> ; */
+/*     mods = <(MOD_LSFT|MOD_RSFT)>; */
+/* ) */
+
+// Shifted colon is semicolon
 ZMK_BEHAVIOR(cln_semi, mod_morph,
     bindings = <&kp COLON>,  <&kp SEMI> ;
     mods = <(MOD_LSFT|MOD_RSFT)>;
 )
 
+// Shifted question mark is exclamation mark
 ZMK_BEHAVIOR(ques_excl, mod_morph,
     bindings = <&kp QMARK>,  <&kp EXCL> ;
     mods = <(MOD_LSFT|MOD_RSFT)>;
 )
 
+/*
+  ╭─────────────────────┬────────────────────╮
+  │  '   ,   .   p   y  │  f   g   c   r   l │
+  │  a   o   e   u   i  │  d   h   t   n   s │
+  │ esc  q   j   k   x  │  b   m   w   v   z │
+  ╰───────╮     sft sym │ ent spc     ╭──────╯
+          ╰─────────────┴─────────────╯         */
 
-ZMK_LAYER(base,
+ZMK_LAYER(dvorak,
      // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
 ___         &kp SQT      &kp COMMA      &kp DOT       &kp P         &kp Y            &tnh_f7       &tnh_g8       &tnh_c9       &tnh_r4        &kp L        ___ 
      // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
@@ -140,9 +167,16 @@ ___          HLC A         HLA O        HLG E         &kp U         &kp I       
      // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
 ___         &kp ESC       &kp Q         &kp J         &kp K         &kp X             &kp B         &kp M         &kp W         &kp V         &kp Z        ___
      // ╰─────────────┴─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────╯
-                                         ___         &sk LSHIFT    &sl SYM          &lt MOV RET    &spc_bs        &none
+                                         ___         &sk LSHIFT    &sl SYM          &lt MOV RET    &kp SPC        &none
      //                             ╰─────────────┴─────────────┴─────────────╯   ╰─────────────┴─────────────┴─────────────╯
 )
+/*
+  ╭─────────────────────┬────────────────────╮
+  │  q   w   f   p   b  │  j   l   u   y   l │
+  │  a   r   s   t   g  │  m   n   e   i   o │
+  │  z   x   c   d   v  │  k   h   ,   .   ' │
+  ╰───────╮     sft sym │ ent spc     ╭──────╯
+          ╰─────────────┴─────────────╯         */
 ZMK_LAYER(colmak,
      // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
 ___          &kp Q         &kp W        &kp F         &kp P         &kp B            &tnh_j7       &tnh_l8       &tnh_u9       &tnh_y4       &kp ESC       ___ 
@@ -151,9 +185,16 @@ ___          HLC A         HLA R        HLG S         &kp T         &kp G       
      // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
 ___          &kp Z         &kp X        &kp C         &kp D         &kp V             &kp K         &kp H       &kp COMMA      &kp DOT       &kp SQT       ___
      // ╰─────────────┴─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────╯
-                                         ___         &sk LSHIFT    &sl SYM          &lt MOV RET    &spc_bs        &none
+                                          ___           ___           ___              ___           ___           ___       
      //                             ╰─────────────┴─────────────┴─────────────╯   ╰─────────────┴─────────────┴─────────────╯
 )
+/*
+  ╭─────────────────────┬────────────────────╮
+  │  q   w   e   r   t  │  y   u   i   o   p │
+  │  a   s   d   f   g  │  h   j   k   l  esc│
+  │  z   x   c   v   b  │  n   m   ,   .   ' │
+  ╰───────╮     sft sym │ ent spc     ╭──────╯
+          ╰─────────────┴─────────────╯         */
 ZMK_LAYER(qwerty,
      // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
 ___          &kp Q         &kp W        &kp E         &kp R         &kp T            &tnh_y7       &tnh_u8       &tnh_i9       &tnh_o4        &kp P        ___ 
@@ -162,7 +203,7 @@ ___          HLC A         HLA S        HLG D         &kp F         &kp G       
      // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
 ___          &kp Z         &kp X        &kp C         &kp V         &kp B             &kp N         &kp M       &kp COMMA      &kp DOT       &kp SQT       ___
      // ╰─────────────┴─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────╯
-                                         ___         &sk LSHIFT    &sl SYM          &lt MOV RET    &spc_bs        &none
+                                          ___           ___           ___              ___           ___           ___       
      //                             ╰─────────────┴─────────────┴─────────────╯   ╰─────────────┴─────────────┴─────────────╯
 )
 
@@ -199,15 +240,22 @@ ___       &kp KP_NLCK        ___            &kp DOT        &kp F11        ___   
                                               ___            ___          ___              ___           ___           ___
      //                                ╰───────────────┴─────────────┴───────────╯   ╰─────────────┴─────────────┴─────────────╯
 )
+/*
+  ╭─────────────────────┬────────────────────╮
+  │ tab q   w   e   r   │                    │
+  │shft a   s   d   f   │                    │
+  │  t  z   x   c   v   │                    │
+  ╰───────╮ b ctrl spc  │             ╭──────╯
+          ╰─────────────┴─────────────╯         */
 ZMK_LAYER(gaming,
      // ╭──────────────┬───────────────┬───────────────┬─────────────┬───────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
 ___         &kp TAB         &kp Q           &kp W           &kp E        &kp R             ___           ___           ___           ___           ___       ___
      // ├──────────────┼───────────────┼───────────────┼─────────────┼───────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-___         &kp ESC         &kp A           &kp S           &kp D        &kp F             ___           ___           ___           ___           ___       ___
+___        &kp LSHIFT       &kp A           &kp S           &kp D        &kp F             ___           ___           ___           ___           ___       ___
      // ├──────────────┼───────────────┼───────────────┼─────────────┼───────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-___        &kp LSHIFT       &kp Z           &kp X           &kp C        &kp V             ___           ___           ___           ___           ___       ___
+___          &kp T          &kp Z           &kp X           &kp C        &kp V             ___           ___           ___           ___           ___       ___
      // ╰──────────────┴───────────────┼───────────────┼─────────────┼───────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────╯
-                                            &kp B          &kp SPC     &kp LCTRL           ___       &tog GAMING       ___
+                                            &kp B         &kp LCTRL     &kp SPC            ___       &tog GAMING       ___
      //                                ╰───────────────┴─────────────┴───────────╯   ╰─────────────┴─────────────┴─────────────╯
 )
 ZMK_LAYER(media,
